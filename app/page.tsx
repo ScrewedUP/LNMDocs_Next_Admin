@@ -1,3 +1,7 @@
-export default function Home() {
-  return <div>LNMDOCS ADMIN</div>;
+const page = () => {
+  return (
+    <div>page</div>
+  )
 }
+
+export default page
