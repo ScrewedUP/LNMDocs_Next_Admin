@@ -1,6 +1,9 @@
+import Login from "./components/Login"
 const page = () => {
   return (
-    <div>page</div>
+    <div className="h-screen w-screen bg-black flex justify-center items-center">
+      <Login />
+    </div>
   )
 }
 
