@@ -25,6 +25,15 @@ model User {
   sessions        Session[]
 }
 
+model Approval {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  username       String?
+  email          String?  @unique
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  hashedPassword String
+}
+
 model Account {
   id                 String    @id @default(cuid()) @map("_id") @db.ObjectId
   userId             String    @db.ObjectId
