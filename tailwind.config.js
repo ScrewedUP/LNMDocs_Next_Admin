@@ -13,6 +13,12 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        poppins: ["Poppins", "system-ui"],
+        roboto: ["Roboto Mono", "mono"],
+        source: ["Source Code Pro", "SFMono-Regular"],
+        tilt: ["Tilt Prism", "sans-serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -53,9 +59,9 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
-      fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
-      },
+      // fontFamily: {
+      //   sans: ["var(--font-sans)", ...fontFamily.sans],
+      // },
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
