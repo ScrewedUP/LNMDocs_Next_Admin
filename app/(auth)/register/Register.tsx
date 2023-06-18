@@ -4,6 +4,7 @@ import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
 import axios from "axios";
+
 import {
   Card,
   CardContent,
@@ -14,6 +15,7 @@ import {
 } from "@/app/components/ui/card";
 
 import { useState, useRef, useEffect } from "react";
+import { ErrorCallback } from "typescript";
 
 interface RegisterData {
   email: string;
@@ -42,11 +44,11 @@ const Register = () => {
 
   const handleRegister = async () => {
     axios
-      .post("/api/register")
+      .post("/api/register", register)
       .then(() => {
         console.log("Admin Approval Added");
       })
-      .catch((err) => {
+      .catch((err: ErrorCallback) => {
         console.log(err);
       });
   };
@@ -56,53 +58,53 @@ const Register = () => {
         <CardTitle>Request Admin</CardTitle>
         <CardDescription>Request ADMIN Access</CardDescription>
       </CardHeader>
-      <CardContent className="space-y-2">
-        <div className="space-y-1">
-          <Label htmlFor="username">User Name</Label>
+      <CardContent className='space-y-2'>
+        <div className='space-y-1'>
+          <Label htmlFor='username'>User Name</Label>
           <Input
-            id="username"
+            id='username'
             ref={userNameRef}
-            autoComplete="off"
+            autoComplete='off'
             onChange={(e) => {
               setRegister((prevState) => {
                 return { ...prevState, username: e.target.value };
               });
             }}
-            placeholder="Username"
+            placeholder='Username'
           />
         </div>
-        <div className="space-y-1">
-          <Label htmlFor="email">College Email</Label>
+        <div className='space-y-1'>
+          <Label htmlFor='email'>College Email</Label>
           <Input
-            id="email"
+            id='email'
             ref={emailRef}
-            autoComplete="off"
+            autoComplete='off'
             onChange={(e) => {
               setRegister((prevState) => {
                 return { ...prevState, email: e.target.value };
               });
             }}
-            placeholder="Email"
+            placeholder='Email'
           />
         </div>
-        <div className="space-y-1">
-          <Label htmlFor="password">Password</Label>
+        <div className='space-y-1'>
+          <Label htmlFor='password'>Password</Label>
           <Input
-            id="password"
-            type="password"
+            id='password'
+            type='password'
             ref={passwordRef}
-            autoComplete="off"
+            autoComplete='off'
             onChange={(e) => {
               setRegister((prevState) => {
                 return { ...prevState, password: e.target.value };
               });
             }}
-            placeholder="Password"
+            placeholder='Password'
           />
         </div>
       </CardContent>
       <CardFooter>
-        <Button onClick={handleRegister} type="submit">
+        <Button onClick={handleRegister} type='submit'>
           Register
         </Button>
       </CardFooter>
