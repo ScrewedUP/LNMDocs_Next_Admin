@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from 'next-auth/react'
+import { signIn } from "next-auth/react";
 import { Button } from "@/app/components/ui/button";
 import {
   Card,
@@ -17,65 +17,137 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/app/components/ui/tabs";
-import { useRef } from 'react';
-import { Heading } from 'lucide-react';
+import { useState, useRef, useEffect } from "react";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
+interface RegisterData {
+  email: string;
+  password: string;
+  username: string;
+}
 
 const Login = () => {
-  const emailLogin = useRef<HTMLInputElement>(null);
-  const passwordLogin = useRef<HTMLInputElement>(null);
-  const emailRegister = useRef<HTMLInputElement>(null);
-  const passwordRegister = useRef<HTMLInputElement>(null);
-  const userNameRegister = useRef<HTMLInputElement>(null);
-  console.log(emailLogin.current?.value)
-  return(
-  <Tabs defaultValue="login" className="w-[400px]">
-    <TabsList className="grid w-full grid-cols-2">
-      <TabsTrigger value="login">Login</TabsTrigger>
-      <TabsTrigger value="requestAdmin">Request Admin</TabsTrigger>
-    </TabsList>
-    <TabsContent value="login">
+  const [login, setLogin] = useState<LoginData>({ email: "", password: "" });
+  const [register, setRegister] = useState<RegisterData>({
+    email: "",
+    password: "",
+    username: "",
+  });
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    let interval = setInterval(() => {
+      login.password = passwordRef.current?.value || "";
+      login.email = emailRef.current?.value || "";
+      console.log("Updated the value based on autocomplete");
+      clearInterval(interval);
+    }, 100);
+  });
+
+  const handleLogin = () => {
+    signIn("credentials", {
+      email: login.email,
+      password: login.password,
+      callbackUrl: "/dashboard",
+    });
+  };
+  return (
+    <Tabs defaultValue='login' className='w-[400px]'>
+      <TabsList className='grid w-full grid-cols-2'>
+        <TabsTrigger value='login'>Login</TabsTrigger>
+        <TabsTrigger value='requestAdmin'>Request Admin</TabsTrigger>
+      </TabsList>
+      <TabsContent value='login'>
         <Card>
           <CardHeader>
             <CardTitle>Login</CardTitle>
-            <CardDescription>
-              Login to LNMDocs
-            </CardDescription> 
+            <CardDescription>Login to LNMDocs</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <div className="space-y-1">
-              <Label htmlFor="email">Email</Label>
-              <Input id="email" ref={emailLogin} placeholder="Email" />
+          <CardContent className='space-y-2'>
+            <div className='space-y-1'>
+              <Label htmlFor='email'>Email</Label>
+              <Input
+                id='email'
+                ref={emailRef}
+                autoComplete='off'
+                onChange={(e) => {
+                  setLogin((prevState) => {
+                    return { ...prevState, email: e.target.value };
+                  });
+                }}
+                placeholder='Email'
+              />
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
-              <Input id="passward" ref={passwordLogin} placeholder="Password" />
+            <div className='space-y-1'>
+              <Label htmlFor='password'>Password</Label>
+              <Input
+                id='password'
+                ref={passwordRef}
+                autoComplete='off'
+                type='password'
+                onChange={(e) => {
+                  setLogin((prevState) => {
+                    return { ...prevState, password: e.target.value };
+                  });
+                }}
+                placeholder='Password'
+              />
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => signIn('credentials',{email : emailLogin.current?.value , password : passwordLogin.current?.value})}>Login</Button>
+            <Button onClick={handleLogin} type='submit'>
+              Login
+            </Button>
           </CardFooter>
         </Card>
       </TabsContent>
-      <TabsContent value="requestAdmin">
+      <TabsContent value='requestAdmin'>
         <Card>
           <CardHeader>
             <CardTitle>Request Admin</CardTitle>
-            <CardDescription>
-              Request ADMIN Access
-            </CardDescription>
+            <CardDescription>Request ADMIN Access</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-          <div className="space-y-1">
-              <Label htmlFor="username">User Name</Label>
-              <Input id="username" ref={userNameRegister} placeholder="Username" />
+          <CardContent className='space-y-2'>
+            <div className='space-y-1'>
+              <Label htmlFor='username'>User Name</Label>
+              <Input
+                id='username'
+                onChange={(e) => {
+                  setRegister((prevState) => {
+                    return { ...prevState, username: e.target.value };
+                  });
+                }}
+                placeholder='Username'
+              />
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="email">College Email</Label>
-              <Input id="email" ref={emailRegister} placeholder="Email" />
+            <div className='space-y-1'>
+              <Label htmlFor='email'>College Email</Label>
+              <Input
+                id='email'
+                onChange={(e) => {
+                  setRegister((prevState) => {
+                    return { ...prevState, email: e.target.value };
+                  });
+                }}
+                placeholder='Email'
+              />
             </div>
-            <div className="space-y-1">
-              <Label htmlFor="password">Password</Label>
-              <Input id="passward" ref={passwordRegister} placeholder="Password" />
+            <div className='space-y-1'>
+              <Label htmlFor='password'>Password</Label>
+              <Input
+                id='password'
+                type='password'
+                onChange={(e) => {
+                  setRegister((prevState) => {
+                    return { ...prevState, password: e.target.value };
+                  });
+                }}
+                placeholder='Password'
+              />
             </div>
           </CardContent>
           <CardFooter>
@@ -83,8 +155,8 @@ const Login = () => {
           </CardFooter>
         </Card>
       </TabsContent>
-      <div className='text-4xl font-white'>{emailLogin.current?.value}</div>
-  </Tabs>
-)};
+    </Tabs>
+  );
+};
 
 export default Login;
