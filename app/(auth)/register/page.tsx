@@ -1,3 +1,5 @@
+// This is the /register route
+
 import Register from "@/app/(auth)/register/Register";
 
 export default function RegisterPage() {
