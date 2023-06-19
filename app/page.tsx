@@ -4,7 +4,7 @@
 
 import Login from "./(auth)/login/Login";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+
 
 export default function HomePage() {
   const session = useSession();
