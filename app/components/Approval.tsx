@@ -19,19 +19,36 @@ const Approval = () => {
       .catch((err) => console.log(err));
   }, []);
   console.log(approvalData);
-  const handleAccept = () => {
-    axios
-      .post("/api/user", approvalData)
-      .then(() => {
-        console.log("Admin Approval Accepted and User Added to database");
-      })
+  const handleAccept = (
+    email: string,
+    username: string,
+    hashedPassword: string
+  ) => {
+    const userData = {
+      email: email,
+      username: username,
+      hashedPassword: hashedPassword,
+    };
+    console.log(userData);
+    fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => console.log(response))
       .catch((err: ErrorCallback) => {
         console.log(err);
       });
   };
-  const handleReject = () => {
+  const handleReject = (email: string) => {
+    const userEmail = {
+      email: email,
+    };
     axios
-      .post("/api/rejectuser", approvalData)
+      .post("/api/rejectuser", userEmail)
       .then(() => {
         console.log("User Deleted");
       })
@@ -52,10 +69,15 @@ const Approval = () => {
           <div className="space-y-1">Email : {ele.email}</div>
         </CardContent>
         <CardFooter className="flex gap-x-1">
-          <Button onClick={handleAccept} type="submit">
+          <Button
+            onClick={() =>
+              handleAccept(ele.email, ele.username, ele.hashedPassword)
+            }
+            type="submit"
+          >
             Accept
           </Button>
-          <Button onClick={handleReject} type="submit">
+          <Button onClick={() => handleReject(ele.email)} type="submit">
             Reject
           </Button>
         </CardFooter>
