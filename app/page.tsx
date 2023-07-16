@@ -4,7 +4,7 @@
 
 import Login from "./(auth)/login/Login";
 import { useSession } from "next-auth/react";
-
+import UploadForm from "./UploadForm";
 
 export default function HomePage() {
   const session = useSession();
@@ -14,7 +14,11 @@ export default function HomePage() {
   return (
     <div className='h-screen w-full bg-dark flex justify-center items-center flex-col gap-9'>
       {!isLoggedIn && <Login />}
-      {isLoggedIn && <div>Logged In</div>}
+      {isLoggedIn && (
+        <div>
+          <UploadForm />
+        </div>
+      )}
     </div>
   );
 }
