@@ -1,7 +1,7 @@
 import prisma from "@/app/libs/prismadb";
 import { NextResponse } from "next/server";
 
-export async function DELETE(request: Request) {
+export async function POST(request: Request) {
   const body : any = await request.json();
   const { email } = body;
 
